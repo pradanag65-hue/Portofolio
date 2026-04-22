@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gilang Pradana — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --body: #3d3d56;
+    --muted: #8888a0;
+    --border: #e8e8f0;
+    --coral:   #ff6b6b;
+    --orange:  #ff9f43;
+    --yellow:  #ffd93d;
+    --green:   #6bcb77;
+    --teal:    #4ecdc4;
+    --blue:    #4d96ff;
+    --purple:  #a78bfa;
+    --pink:    #f472b6;
+    --grad-hero: linear-gradient(135deg, #fff5f5 0%, #eff6ff 50%, #f0fdf4 100%);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .bg-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .shape { position: absolute; border-radius: 50%; opacity: 0.12; filter: blur(70px); }
+  .s1 { width: 600px; height: 600px; background: var(--blue);   top: -200px; right: -100px; }
+  .s2 { width: 400px; height: 400px; background: var(--coral);  bottom: 10%; left: -150px; }
+  .s3 { width: 300px; height: 300px; background: var(--yellow); top: 40%; right: 10%; }
+  .s4 { width: 250px; height: 250px; background: var(--green);  top: 70%; left: 30%; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 0;
+    background: rgba(250,250,248,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 1.5px solid var(--border);
+  }
+  nav .container { display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a {
+    color: var(--body); text-decoration: none; font-size: 0.9rem; font-weight: 700;
+    padding: 6px 16px; border-radius: 100px; transition: all 0.2s;
+  }
+  .nav-links a:hover { background: #f0f4ff; color: var(--blue); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 120px 0 80px; background: var(--grad-hero);
+  }
+  .hero-inner { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; background: #dcfce7; border: 2px solid #86efac;
+    border-radius: 100px; font-size: 0.82rem; color: #16a34a; font-weight: 700;
+    margin-bottom: 24px; opacity: 0; animation: fadeUp 0.5s ease 0.1s forwards;
+  }
+  .hero-badge .dot {
+    width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1; letter-spacing: -0.03em; color: var(--text);
+    margin-bottom: 20px; opacity: 0; animation: fadeUp 0.5s ease 0.2s forwards;
+  }
+  .grad-coral {
+    background: linear-gradient(135deg, var(--coral), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .grad-blue {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem; color: var(--body); max-width: 500px;
+    line-height: 1.75; margin-bottom: 36px;
+    opacity: 0; animation: fadeUp 0.5s ease 0.3s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.5s ease 0.4s forwards;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px; border-radius: 12px; font-size: 0.95rem; font-weight: 700;
+    text-decoration: none; transition: all 0.2s;
+    font-family: 'Nunito', sans-serif; border: none; cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; box-shadow: 0 4px 20px rgba(77,150,255,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(77,150,255,0.45); }
+  .btn-outline {
+    background: var(--white); color: var(--text); border: 2px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+  .hero-avatar { opacity: 0; animation: fadeUp 0.5s ease 0.5s forwards; }
+  .avatar-blob {
+    width: 200px; height: 200px;
+    border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%;
+    background: linear-gradient(135deg, var(--blue), var(--purple), var(--pink));
+    display: flex; align-items: center; justify-content: center; font-size: 4rem;
+    animation: morph 8s ease-in-out infinite;
+    box-shadow: 0 20px 60px rgba(77,150,255,0.3);
+  }
+  @keyframes morph {
+    0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%; }
+    33%      { border-radius: 40% 60% 45% 55% / 55% 45% 55% 45%; }
+    66%      { border-radius: 55% 45% 60% 40% / 40% 60% 40% 60%; }
+  }
+
+  /* STATS */
+  .stats {
+    display: flex; gap: 0; margin-top: 48px;
+    background: var(--white); border-radius: 16px;
+    border: 2px solid var(--border); overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    opacity: 0; animation: fadeUp 0.5s ease 0.6s forwards;
+  }
+  .stat { flex: 1; padding: 22px 24px; text-align: center; border-right: 2px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 6px;
+  }
+  .c1 { color: var(--coral); }
+  .c2 { color: var(--blue); }
+  .c3 { color: var(--green); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* SECTIONS */
+  section { padding: 100px 0; }
+  .section-tag {
+    display: inline-block; padding: 5px 14px; border-radius: 100px;
+    font-size: 0.76rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 14px;
+  }
+  .st-blue   { background: #dbeafe; color: #2563eb; }
+  .st-coral  { background: #fee2e2; color: #dc2626; }
+  .st-purple { background: #ede9fe; color: #7c3aed; }
+
+  h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.025em; color: var(--text); margin-bottom: 12px; line-height: 1.2;
+  }
+  .section-desc { color: var(--body); font-size: 1rem; max-width: 500px; margin-bottom: 52px; line-height: 1.75; }
+
+  /* PROJECTS */
+  .projects-grid { display: flex; flex-direction: column; gap: 20px; }
+  .project-card {
+    background: var(--white); border: 2px solid var(--border); border-radius: 20px;
+    padding: 36px; display: grid; grid-template-columns: auto 1fr auto;
+    gap: 28px; align-items: start; transition: all 0.3s;
+  }
+  .project-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.09); }
+
+  .project-icon {
+    width: 58px; height: 58px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; flex-shrink: 0;
+  }
+  .ic-blue   { background: #dbeafe; }
+  .ic-coral  { background: #fee2e2; }
+  .ic-yellow { background: #fef9c3; }
+
+  .project-num { font-size: 0.72rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .project-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .project-desc { color: var(--body); font-size: 0.93rem; line-height: 1.65; margin-bottom: 18px; }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pt {
+    padding: 4px 12px; border-radius: 100px; font-size: 0.77rem; font-weight: 700;
+  }
+  .pt-blue   { background: #dbeafe; color: #2563eb; }
+  .pt-teal   { background: #ccfbf1; color: #0d9488; }
+  .pt-orange { background: #ffedd5; color: #ea580c; }
+  .pt-purple { background: #ede9fe; color: #7c3aed; }
+
+  .project-link {
+    display: flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; border-radius: 12px; text-decoration: none;
+    font-size: 1.2rem; font-weight: 700; transition: all 0.2s; flex-shrink: 0;
+    border: 2px solid var(--border); color: var(--body); margin-top: 4px;
+  }
+  .project-link:hover { background: var(--blue); color: white; border-color: var(--blue); transform: scale(1.1); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
+  .skill-item {
+    background: var(--white); border: 2px solid var(--border); border-radius: 16px;
+    padding: 24px; transition: all 0.2s; position: relative; overflow: hidden;
+  }
+  .skill-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 4px 4px 0 0; }
+  .sk1::before { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+  .sk2::before { background: linear-gradient(90deg, var(--coral), var(--pink)); }
+  .sk3::before { background: linear-gradient(90deg, var(--teal), var(--green)); }
+  .sk4::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+  .sk5::before { background: linear-gradient(90deg, var(--orange), var(--coral)); }
+  .sk6::before { background: linear-gradient(90deg, var(--purple), var(--pink)); }
+  .skill-item:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
+  .skill-icon { font-size: 1.6rem; margin-bottom: 12px; }
+  .skill-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .skill-sub { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+  /* CONTACT */
+  .contact-bg {
+    background: linear-gradient(135deg, #fef9c3 0%, #dbeafe 50%, #fce7f3 100%);
+    border-radius: 28px; padding: 64px 48px; text-align: center;
+    border: 2px solid #e8e8f0;
+  }
+  .contact-bg h2 { margin-bottom: 12px; }
+  .contact-bg p { color: var(--body); font-size: 1.05rem; margin-bottom: 40px; line-height: 1.75; }
+  .contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .contact-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 22px; background: var(--white);
+    border: 2px solid var(--border); border-radius: 12px;
+    color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 700;
+    transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .contact-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .ci-wa:hover   { border-color: #22c55e; color: #16a34a; }
+  .ci-mail:hover { border-color: var(--coral); color: var(--coral); }
+  .ci-gh:hover   { border-color: var(--purple); color: #7c3aed; }
+
+  footer {
+    border-top: 1.5px solid var(--border); padding: 32px 0;
+    text-align: center; color: var(--muted); font-size: 0.85rem; font-weight: 600;
+  }
+
+  .sdivider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 700px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-avatar { display: none; }
+    .project-card { grid-template-columns: auto 1fr; }
+    .project-link { display: none; }
+    .nav-links { display: none; }
+    .contact-bg { padding: 36px 20px; }
+    .stats { flex-wrap: wrap; }
+    .stat { min-width: 50%; border-bottom: 2px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="shape s1"></div>
+  <div class="shape s2"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4"></div>
+</div>
+
+<nav>
+  <div class="container">
+    <a href="#" class="nav-logo">Gilang Pradana</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Kontak</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><div class="dot"></div> Tersedia untuk Freelance</div>
+        <h1>
+          Halo, Saya<br>
+          <span class="grad-coral">Gilang Pradana</span><br>
+          <span class="grad-blue">Web Developer.</span>
+        </h1>
+        <p class="hero-desc">
+          Saya membangun sistem web operasional yang fungsional, cepat, dan mudah digunakan — dari manajemen gudang hingga armada transportasi.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary">💬 Hubungi Saya</a>
+          <a href="#projects" class="btn btn-outline">📁 Lihat Project</a>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num c1">3+</div>
+            <div class="stat-label">Project</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num c2">2+</div>
+            <div class="stat-label">Tahun</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num c3">100%</div>
+            <div class="stat-label">Dedicated</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-avatar">
+        <div class="avatar-blob">👨‍💻</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sdivider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" style="background: var(--bg);">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag st-blue">📁 Portfolio</div>
+      <h2>Project yang Saya Kerjakan</h2>
+      <p class="section-desc">Sistem web lengkap yang sudah berjalan di production, dibangun dengan teknologi modern dan siap pakai.</p>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-icon ic-blue">📦</div>
+        <div>
+          <div class="project-num">01 · Warehouse Management System</div>
+          <div class="project-name">StockPro</div>
+          <p class="project-desc">Sistem manajemen gudang lengkap dengan fitur barang masuk/keluar, stock opname, transfer antar lokasi, laporan transaksi, dan manajemen multi-user dengan role-based access control.</p>
+          <div class="project-tags">
+            <span class="pt pt-blue">Vanilla JS</span>
+            <span class="pt pt-blue">HTML/CSS</span>
+            <span class="pt pt-teal">Supabase</span>
+            <span class="pt pt-purple">Vercel</span>
+          </div>
+        </div>
+        <a href="https://github.com/pradanag65-hue/stockpro" target="_blank" class="project-link">↗</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon ic-coral">🚌</div>
+        <div>
+          <div class="project-num">02 · Fleet Management System</div>
+          <div class="project-name">Sistem Operasional TransJogja</div>
+          <p class="project-desc">Sistem manajemen armada bus TransJogja berbasis web — mencakup pencatatan operasional harian, manajemen BBM, laporan perjalanan, dan monitoring armada secara real-time.</p>
+          <div class="project-tags">
+            <span class="pt pt-blue">Vanilla JS</span>
+            <span class="pt pt-blue">HTML/CSS</span>
+            <span class="pt pt-teal">Supabase</span>
+            <span class="pt pt-purple">Vercel</span>
+          </div>
+        </div>
+        <a href="https://operasional-trans-jogja-ntmko0p1l.vercel.app/" target="_blank" class="project-link">↗</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-icon ic-yellow">🛒</div>
+        <div>
+          <div class="project-num">03 · E-Commerce & POS System</div>
+          <div class="project-name">WarungKu</div>
+          <p class="project-desc">Sistem POS dan e-commerce lengkap untuk toko kelontong — storefront pelanggan dengan order tracking, kasir dengan barcode scanning & cetak struk, serta dashboard admin dengan laporan keuangan bulanan dan export CSV.</p>
+          <div class="project-tags">
+            <span class="pt pt-blue">Vanilla JS</span>
+            <span class="pt pt-blue">HTML/CSS</span>
+            <span class="pt pt-orange">JsBarcode</span>
+            <span class="pt pt-teal">localStorage</span>
+          </div>
+        </div>
+        <div class="project-link" style="opacity:0.25;cursor:default;">↗</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sdivider"></div>
+
+<!-- SKILLS -->
+<section id="skills" style="background: white;">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag st-purple">⚡ Keahlian</div>
+      <h2>Tech Stack Saya</h2>
+      <p class="section-desc">Teknologi yang saya gunakan sehari-hari untuk membangun aplikasi web yang solid, cepat, dan mudah dikelola.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item sk1 reveal">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Vanilla JavaScript</div>
+        <div class="skill-sub">ES6+, DOM, Fetch API</div>
+      </div>
+      <div class="skill-item sk2 reveal">
+        <div class="skill-icon">🎨</div>
+        <div class="skill-name">HTML & CSS</div>
+        <div class="skill-sub">Responsive, Modern UI</div>
+      </div>
+      <div class="skill-item sk3 reveal">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-name">Supabase</div>
+        <div class="skill-sub">PostgreSQL, Auth, Storage</div>
+      </div>
+      <div class="skill-item sk4 reveal">
+        <div class="skill-icon">🚀</div>
+        <div class="skill-name">Vercel</div>
+        <div class="skill-sub">Deploy & Hosting</div>
+      </div>
+      <div class="skill-item sk5 reveal">
+        <div class="skill-icon">🔐</div>
+        <div class="skill-name">Auth & RBAC</div>
+        <div class="skill-sub">Role-based Access Control</div>
+      </div>
+      <div class="skill-item sk6 reveal">
+        <div class="skill-icon">📊</div>
+        <div class="skill-name">Dashboard & Laporan</div>
+        <div class="skill-sub">Chart, Export CSV, Filter</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sdivider"></div>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--bg);">
+  <div class="container">
+    <div class="contact-bg reveal">
+      <div class="section-tag st-coral">✉️ Kontak</div>
+      <h2>Yuk, Ngobrol Dulu! 👋</h2>
+      <p>Punya ide project sistem web atau aplikasi manajemen?<br>Saya siap bantu mewujudkannya dari awal sampai jadi.</p>
+      <div class="contact-links">
+        <a href="https://wa.me/6285729831080" target="_blank" class="contact-item ci-wa">
+          📱 085729831080
+        </a>
+        <a href="mailto:pradanag65@gmail.com" class="contact-item ci-mail">
+          ✉️ pradanag65@gmail.com
+        </a>
+        <a href="https://github.com/pradanag65-hue" target="_blank" class="contact-item ci-gh">
+          💻 GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Gilang Pradana · Dibuat dengan ☕ & ❤️ di Yogyakarta</p>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 90);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
